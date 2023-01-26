@@ -1,0 +1,27 @@
+This is a react project made with next.js
+    -> npx create-next-app@latest
+
+We also are using tailwindcss
+    -> npm install -D tailwindcss
+    -> npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
+    -> next do npx tailwindcss init (for customization of tailwind)
+    -> next do npx tailwindcss init -p (for postcss which is apparently necessary)
+    -> need these imports in globals.css file 
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+    -> includes this for the content property in tailwind.config.js 
+          content: [
+                "./pages/**/*.{js,ts,jsx,tsx}",
+                "./components/**/*.{js,ts,jsx,tsx}",
+            ],
+
+Install React firebase hooks -> easy way to get current user and checking them
+    -> npm i react-firebase-hooks
+
+Install react icons
+    -> npm i react-icons
+
+To start dev environment
+    -> npm run dev
+
