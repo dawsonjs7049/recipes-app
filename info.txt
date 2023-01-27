@@ -25,3 +25,16 @@ Install react icons
 To start dev environment
     -> npm run dev
 
+
+TODO: 
+    - page transitions or animations
+    - react icons 
+    - add recipe  
+    - edit recipe 
+    - delete recipe 
+    - search for recipes via API 
+    - sorting your recipes 
+    - favoriting recipes 
+    - filtering should show and hide by animation 
+    - recipe tags 
+    - recipe measurement conversions

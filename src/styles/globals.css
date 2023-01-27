@@ -29,3 +29,22 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.Dropdown-control {
+  height: 38px !important;
+  border-left: none !important;
+  background-color: slategray !important;
+  color: white !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+
+.tag-btn {
+  transition: all .5s ease-in-out;
+}
+.animate-up {
+  transform: translateY(-10px);
+  background-color: green;
+}
