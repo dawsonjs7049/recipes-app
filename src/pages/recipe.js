@@ -5,8 +5,10 @@ import { auth, db } from 'utils/firebase';
 import { useRouter } from 'next/router';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { AiFillPlusSquare, AiOutlinePlus} from 'react-icons/ai';
+import { AiOutlinePlus} from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
+import { toast } from 'react-toastify';
+import toastMessage from 'utils/util_functions';
 
 export default function recipe() {
 
@@ -22,6 +24,7 @@ export default function recipe() {
     const [step, setStep] = useState("");
     const [amount, setAmount] = useState(0);
     const [tags, setTags] = useState([])
+    const [prepTime, setPrepTime] = useState("");
 
     const options = [
         'tsp ',
@@ -36,20 +39,33 @@ export default function recipe() {
 
     async function submitRecipe(event)
     {
+        // make a unit test of this function for input fields? 
+
         event.preventDefault();
 
-        const collectionRef = collection(db, 'recipes');
+        if(name.length == 0)
+        {
+            toastMessage("No Title", "error");
+        }
+        else 
+        {
+            const collectionRef = collection(db, 'recipes');
 
-        await addDoc(collectionRef, {
-            name: name,
-            description: description,
-            ingredients: ingredients,
-            steps: steps,
-            userId: user.uid,
-            timestamp: serverTimestamp()
-        })
+            await addDoc(collectionRef, {
+                name: name,
+                description: description,
+                ingredients: ingredients,
+                steps: steps,
+                userId: user.uid,
+                tags: tags,
+                prepTime: prepTime,
+                timestamp: serverTimestamp()
+            })
+    
+            route.push('/dashboard');
 
-        // route.push('/dashboard');
+            toastMessage("Added Recipe!", "success");
+        }
     }
 
     function addIngredient()
@@ -99,7 +115,7 @@ export default function recipe() {
                     <input value={name} onChange={(e) => setName(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Name" />
 
                     <h3 className="text-lg font-medium py-2 mt-4">Description</h3>
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="bg-gray-800 h-36 w-full text-white rounded-lg p-2 text-small"></textarea>
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="bg-slate-100 h-36 w-full text-black rounded-lg p-2 text-small"></textarea>
 
                     <div>
                         <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>
@@ -175,6 +191,17 @@ export default function recipe() {
                         <button onClick={() => updateTags("Snack")} className={`tag-btn rounded-md shadow-md text-white p-2 ${tags.includes("Snack") ? "animate-up" : "bg-cyan-500"}`} type="button">Snack</button>
                         <button onClick={() => updateTags("Dessert")} className={`tag-btn rounded-md shadow-md text-white p-2 ${tags.includes("Dessert") ? "animate-up" : "bg-cyan-500"}`} type="button">Dessert</button>
 
+                    </div>
+
+                    <h3 className="text-lg font-medium pt-2 pb-3 mt-4">Prep Time</h3>
+                    <div className="flex flex-row justify-evenly gap-4 flex-wrap">
+                        <button onClick={() => setPrepTime("5 minutes")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "5 minutes" ? "animate-up" : "bg-cyan-500"}`} type="button">5 minutes</button>
+                        <button onClick={() => setPrepTime("10 minutes")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "10 minutes" ? "animate-up" : "bg-cyan-500"}`} type="button">10 minutes</button>
+                        <button onClick={() => setPrepTime("15 minutes")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "15 minutes" ? "animate-up" : "bg-cyan-500"}`} type="button">15 minutes</button>
+                        <button onClick={() => setPrepTime("30 minutes")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "30 minutes" ? "animate-up" : "bg-cyan-500"}`} type="button">30 minutes</button>
+                        <button onClick={() => setPrepTime("45 minutes")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "45 minutes" ? "animate-up" : "bg-cyan-500"}`} type="button">45 minutes</button>
+                        <button onClick={() => setPrepTime("1 hours")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "1 hours" ? "animate-up" : "bg-cyan-500"}`} type="button">1 hours</button>
+                        <button onClick={() => setPrepTime("2 hours")} className={`tag-btn rounded-md shadow-md text-white p-2 ${prepTime == "2 hours" ? "animate-up" : "bg-cyan-500"}`} type="button">2 hours</button>
                     </div>
                 </div>
                 <hr className="my-10"></hr>
