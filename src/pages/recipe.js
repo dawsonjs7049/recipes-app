@@ -1,5 +1,5 @@
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import React, { useState } from 'react'
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from 'utils/firebase';
 import { useRouter } from 'next/router';
@@ -25,6 +25,8 @@ export default function recipe() {
     const [amount, setAmount] = useState(0);
     const [tags, setTags] = useState([])
     const [prepTime, setPrepTime] = useState("");
+    const [recipe, setRecipe] = useState(false);
+    const [title, setTitle] = useState("Add a Recipe");
 
     const options = [
         'tsp ',
@@ -37,34 +39,85 @@ export default function recipe() {
         'gal'
     ]
 
+    useEffect(() => {
+        if(loading) { return; }
+
+        if(!user)
+        {
+            route.push('auth/login')
+        }
+        else
+        {
+            if(route.query.name)
+            {
+                // console.log("WE HAVE A PASSED IN RECIPE, SET UP EDIT MODE");
+                console.log("EDITING RECIPE");
+                setTitle("Edit Recipe");
+
+                setRecipe(route.query);
+                setName(route.query.name)
+                setDescription(route.query.description);
+                setSteps(route.query.steps);
+                setIngredients(JSON.parse(route.query.ingredients));
+                setTags(route.query.tags);
+                setPrepTime(route.query.prepTime);
+            }
+            else
+            {
+                // we are making a new recipe
+                console.log("MAKING NEW RECIPE");
+            }
+        }
+
+    }, [user, loading])
+
     async function submitRecipe(event)
     {
         // make a unit test of this function for input fields? 
-
         event.preventDefault();
 
-        if(name.length == 0)
+        if(recipe)
         {
-            toastMessage("No Title", "error");
-        }
-        else 
-        {
-            const collectionRef = collection(db, 'recipes');
+            // we are updating a recipe
+            const docRef = doc(db, 'recipes', recipe.id);
 
-            await addDoc(collectionRef, {
+            await updateDoc(docRef, {
                 name: name,
                 description: description,
                 ingredients: ingredients,
                 steps: steps,
-                userId: user.uid,
                 tags: tags,
                 prepTime: prepTime,
                 timestamp: serverTimestamp()
             })
-    
-            route.push('/dashboard');
 
-            toastMessage("Added Recipe!", "success");
+            toastMessage("Successfully Updated Recipe", "success");
+        }
+        else
+        {
+            if(name.length == 0)
+            {
+                toastMessage("No Title", "error");
+            }
+            else 
+            {
+                const collectionRef = collection(db, 'recipes');
+    
+                await addDoc(collectionRef, {
+                    name: name,
+                    description: description,
+                    ingredients: ingredients,
+                    steps: steps,
+                    userId: user.uid,
+                    tags: tags,
+                    prepTime: prepTime,
+                    timestamp: serverTimestamp()
+                })
+        
+                route.push('/dashboard');
+    
+                toastMessage("Added Recipe!", "success");
+            }
         }
     }
 
@@ -109,7 +162,7 @@ export default function recipe() {
     return (
         <div className="my-20 p-12 shadow-lg rounded-lg max-w-xl mx-auto">
             <form onSubmit={submitRecipe}>
-                <h1 className="font-bold text-2xl">Add a Recipe</h1>
+                <h1 className="font-bold text-2xl">{ title }</h1>
                 <div className="py-2">
                     <h3 className="text-lg font-medium py-2">Name</h3>
                     <input value={name} onChange={(e) => setName(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Name" />
@@ -141,9 +194,9 @@ export default function recipe() {
                             }
                             {
                                 ingredients.length != 0 &&
-                                    ingredients.map((item) => {
+                                    ingredients.map((item, index) => {
                                         return (
-                                            <div className="flex flex-row w-full mt-2" key={item.name}>   
+                                            <div className="flex flex-row w-full mt-2" key={index}>   
                                                 <div className="w-1/2">
                                                     { item.name }
                                                 </div>

@@ -22,6 +22,9 @@ Install React firebase hooks -> easy way to get current user and checking them
 Install react icons
     -> npm i react-icons
 
+Install react pagination
+    -> npm install react-paginate --save
+
 To start dev environment
     -> npm run dev
 
