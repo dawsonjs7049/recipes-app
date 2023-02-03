@@ -3,6 +3,7 @@ export default class Recipe {
     {
         this.name = recipe.name;
         this.description = recipe.description ?? "N/A"
+        this.isFavorited = recipe.isFavorited ?? 0;
         this.steps = recipe.steps;
         this.ingredients = JSON.stringify(recipe.ingredients);
         this.tags = recipe.tags;
@@ -10,6 +11,5 @@ export default class Recipe {
         this.userId = recipe.userId;
         this.id = recipe.id;
         this.timestamp = recipe.timestamp;
-        this.classDescription = "HELLO THERE";
     }
 }

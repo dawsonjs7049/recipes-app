@@ -25,8 +25,13 @@ Install react icons
 Install react pagination
     -> npm install react-paginate --save
 
+Install react query (for api fetch calls)
+    -> npm i @tanstack/react-query
+    -> optional dev tools: npm i @tanstack/react-query-devtools
+
 To start dev environment
     -> npm run dev
+
 
 
 TODO: 

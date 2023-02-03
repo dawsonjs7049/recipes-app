@@ -7,18 +7,11 @@ import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import toastMessage from 'utils/util_functions';
 
-export default function RecipeComp({ recipe }) {
+export default function RecipeCard({ recipe }) {
 
     console.log("RECIPE IN COMPONENT: " + JSON.stringify(recipe));
 
     const [isFavorited, setIsFavorited] = useState((recipe.isFavorited ? recipe.isFavorited : false));
-
-    // useEffect(() => {
-    //     if(recipe.isFavorited)
-    //     {
-    //         setIsFavorited(recipe.isFavorited);
-    //     }
-    // }, [])
 
     async function handleSetFavorited(recipe)
     {

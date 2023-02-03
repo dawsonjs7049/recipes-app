@@ -17,7 +17,7 @@ export default function Nav()
 
     return (
         <nav className="flex justify-between items-center py-10">
-            <Link href={"/"}>
+            <Link href={"/dashboard"}>
                 <button className="text-2xl font-bold text-slate-500">Cookbook</button>
             </Link> 
 
@@ -30,7 +30,7 @@ export default function Nav()
                         </ul>
 
                         <ul className="">
-                            <Link href={"/dashboard"}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Dashboard</span></Link>
+                            <Link href={"/recipeSearch"}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Search Recipes</span></Link>
                         </ul>
                         
                         <ul className="">
