@@ -1,39 +1,66 @@
 import { useQuery } from '@tanstack/react-query'
+import ApiRecipeCard from 'components/ApiRecipeCard';
 import React, { useState } from 'react'
+import { BsSearch } from 'react-icons/bs';
 import toastMessage from 'utils/util_functions';
 
 export default function recipeSearch() {
   
     const [searchResults, setSearchResults] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
+    const [searchInput, setSearchInput] = useState("");
 
-    async function fetchRecipes()
+    const { isLoading, isError, isSuccess, data } = useQuery(
+        ["recipes", searchValue],
+        () => fetch(`http://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.meals)
+                {
+                    setSearchResults(data.meals);
+                }
+                else
+                {
+                    setSearchResults([]);
+
+                    toastMessage("No Matches Found", "error");
+                }
+ 
+                return data;
+            }),
+            { enabled: searchValue.trim().length > 0 }
+    )
+
+    function handleSearch()
     {
-        // set loading symbol ? 
-        const recipeQuery = useQuery({
-            queryKey: ['recipes'],
-            queryFn: () => fetch("http://www.themealdb.com/api/json/v1/1/search.php?s=Pork")
-                .then((response) => response.json())
-                .then((data) => { 
-                    // console.log("DATA: " + JSON.stringify(data)); 
-                    data.meals.forEach((meal) => console.log("MEAL: " + JSON.stringify(meal)))
-                    setSearchResults(data); 
-                    return data; 
+        let search = searchInput.trim();
 
-                    // if no results, toast message and return empty array
-
-                    // else remove loading symbol, set searchResults
-
-
-                })
-        })
+        if(search.length > 0)
+        {
+            setSearchValue(search);
+        }
+        else
+        {
+            // clear the results
+            setSearchResults([])
+        }
     }
 
-    // fetchRecipes();
-    toastMessage("Testing toast", "success");
-  
     return (
-    <div>
-        <h1>Here we do some searchin</h1>
-    </div>
-  )
+        <div className="w-full">
+            <h1 className="text-center font-bold text-2xl mt-10">Search for a Recipe</h1>
+            <div className="w-full text-center mt-10 mb-5 flex flex-row justify-center items-center gap-2">
+                <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)} className="w-3/4 md:w-96 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Search By Name" />
+                <button onClick={() => handleSearch()} className="rounded-md shadow-md ml-2 p-2 text-white bg-cyan-500 hover:bg-cyan-600"><BsSearch className="text-2xl"/></button>
+            </div>
+            <div className="flex flex-row justify-evenly items-start flex-wrap gap-5">            
+            {
+                searchResults.length > 0 &&
+                    searchResults.map((meal, index) => {
+                        return <ApiRecipeCard data={meal} key={index} />
+                    })
+            }
+            </div>
+        </div>
+    )
 }

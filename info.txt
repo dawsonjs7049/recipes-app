@@ -46,3 +46,6 @@ TODO:
     - filtering should show and hide by animation 
     - recipe tags 
     - recipe measurement conversions
+    - add background color of teal along sides (not main div, keep that white)
+    - add darkmode
+    - make mobile compatible
