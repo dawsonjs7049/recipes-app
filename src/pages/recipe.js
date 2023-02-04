@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from 'utils/firebase';
 import { useRouter } from 'next/router';
@@ -9,10 +9,12 @@ import { AiOutlinePlus} from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import { toast } from 'react-toastify';
 import toastMessage from 'utils/util_functions';
+import { RecipeContext } from './_app';
 
 export default function recipe() {
 
     const [user, loading] = useAuthState(auth);
+    const { currentRecipe, setCurrentRecipe } = useContext(RecipeContext)
     const route = useRouter();
 
     const [name, setName] = useState("");
@@ -25,7 +27,6 @@ export default function recipe() {
     const [amount, setAmount] = useState(0);
     const [tags, setTags] = useState([])
     const [prepTime, setPrepTime] = useState("");
-    const [recipe, setRecipe] = useState(false);
     const [title, setTitle] = useState("Add a Recipe");
 
     const options = [
@@ -36,7 +37,9 @@ export default function recipe() {
         'fl oz',
         'pt',
         'qt',
-        'gal'
+        'gal',
+        'pinch',
+        'units'
     ]
 
     useEffect(() => {
@@ -48,38 +51,43 @@ export default function recipe() {
         }
         else
         {
-            if(route.query.name)
+            if(currentRecipe.name != "")
             {
-                // console.log("WE HAVE A PASSED IN RECIPE, SET UP EDIT MODE");
-                console.log("EDITING RECIPE");
+                // we have a recipe we want to edit
                 setTitle("Edit Recipe");
 
-                setRecipe(route.query);
-                setName(route.query.name)
-                setDescription(route.query.description);
-                setSteps(route.query.steps);
-                setIngredients(JSON.parse(route.query.ingredients));
-                setTags(route.query.tags);
-                setPrepTime(route.query.prepTime);
+                setName(currentRecipe.name)
+                setDescription(currentRecipe.description);
+                setSteps(currentRecipe.steps);
+                setIngredients(currentRecipe.ingredients);
+                setTags(currentRecipe.tags);
+                setPrepTime(currentRecipe.prepTime);
             }
             else
             {
-                // we are making a new recipe
-                console.log("MAKING NEW RECIPE");
+                // user may have pressed add recipe while inside the page already, reset everything
+                setTitle("Add Recipe");
+
+                setName("")
+                setDescription("");
+                setSteps([]);
+                setIngredients([]);
+                setTags([]);
+                setPrepTime("");
             }
         }
 
-    }, [user, loading])
+    }, [user, loading, currentRecipe])
 
     async function submitRecipe(event)
     {
         // make a unit test of this function for input fields? 
         event.preventDefault();
 
-        if(recipe)
+        if(currentRecipe.name != "")
         {
             // we are updating a recipe
-            const docRef = doc(db, 'recipes', recipe.id);
+            const docRef = doc(db, 'recipes', currentRecipe.id);
 
             await updateDoc(docRef, {
                 name: name,

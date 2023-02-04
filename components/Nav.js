@@ -2,10 +2,14 @@ import Link from 'next/link';
 import { auth } from 'utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { RecipeContext } from '@/pages/_app';
+import Recipe from '@/models/Recipe';
 
 export default function Nav()
 {
     const [user, loading] = useAuthState(auth);
+    const { currentRecipe, setCurrentRecipe } = useContext(RecipeContext);
     const route = useRouter();
 
     function logout()
@@ -26,7 +30,7 @@ export default function Nav()
                 (
                     <div className="flex items-center gap-5">
                         <ul className="">
-                            <Link href={"/recipe"}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Add Recipe</span></Link>
+                            <Link href={"/recipe"} onClick={() => setCurrentRecipe(new Recipe(null))}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Add Recipe</span></Link>
                         </ul>
 
                         <ul className="">
