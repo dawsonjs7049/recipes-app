@@ -28,6 +28,7 @@ export default function recipe() {
     const [tags, setTags] = useState([])
     const [prepTime, setPrepTime] = useState("");
     const [title, setTitle] = useState("Add a Recipe");
+    const [servings, setServings] = useState(1);
 
     const options = [
         'tsp ',
@@ -119,6 +120,7 @@ export default function recipe() {
                     userId: user.uid,
                     tags: tags,
                     prepTime: prepTime,
+                    originalServingSize: servings,
                     timestamp: serverTimestamp()
                 })
         
@@ -180,7 +182,15 @@ export default function recipe() {
 
                     <div>
                         <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>
-                        <div className="flex flex-row justify-between items-center">
+                        <h3 className="text-md pb-3">Number of Servings</h3>
+                        <div className="flex flex-row justify-around items-center">
+                            <button type="button" onClick={() => setServings(1)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 1 ? 'animate-up' : 'bg-cyan-500'}`}>1</button>
+                            <button type="button" onClick={() => setServings(2)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 2 ? 'animate-up' : 'bg-cyan-500'}`}>2</button>
+                            <button type="button" onClick={() => setServings(3)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 3 ? 'animate-up' : 'bg-cyan-500'}`}>3</button>
+                            <button type="button" onClick={() => setServings(4)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 4 ? 'animate-up' : 'bg-cyan-500'}`}>4</button>
+                            <button type="button" onClick={() => setServings(5)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 5 ? 'animate-up' : 'bg-cyan-500'}`}>5</button>
+                        </div>
+                        <div className="flex flex-row justify-between items-center mt-4">
                             <input value={ingredient} onChange={(e) => setIngredient(e.target.value)} className="w-3/5 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Ingredient" />
                             <div className="w-1/3 flex flex-row">
                                 <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" className="w-1/2 rounded-r-0 border-r-0 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />

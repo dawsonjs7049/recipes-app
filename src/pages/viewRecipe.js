@@ -4,6 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from 'utils/firebase';
 import Link from 'next/link';
 import { RecipeContext } from './_app';
+import Dropdown from 'react-dropdown';
 
 export default function viewRecipe() {
 
@@ -14,6 +15,7 @@ export default function viewRecipe() {
     const [tags, setTags] = useState([]);
     const [ingredients, setIngredients] = useState([]);
     const [steps, setSteps] = useState([]);
+    const [servings, setServings] = useState(1);
 
     const route = useRouter();
 
@@ -24,7 +26,11 @@ export default function viewRecipe() {
         {
             route.push('auth/login')
         }
-
+        else
+        {
+            setServings(currentRecipe.originalServingSize);
+        }
+        
     }, [user, loading])
 
     return (
@@ -37,8 +43,15 @@ export default function viewRecipe() {
                 </p>
 
                 <div>
-                    {/* should have a way to determine the number of servings here */}
-                    <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>     
+                    <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>   
+                    <h3 className="text-md pb-3">Number of Servings</h3>
+                    <div className="flex flex-row justify-around items-center">
+                        <button onClick={() => setServings(1)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 1 ? 'animate-up' : 'bg-cyan-500'}`}>1</button>
+                        <button onClick={() => setServings(2)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 2 ? 'animate-up' : 'bg-cyan-500'}`}>2</button>
+                        <button onClick={() => setServings(3)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 3 ? 'animate-up' : 'bg-cyan-500'}`}>3</button>
+                        <button onClick={() => setServings(4)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 4 ? 'animate-up' : 'bg-cyan-500'}`}>4</button>
+                        <button onClick={() => setServings(5)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 5 ? 'animate-up' : 'bg-cyan-500'}`}>5</button>
+                    </div>
                     <div>
                         {
                             currentRecipe.ingredients.length != 0 && 
@@ -60,7 +73,7 @@ export default function viewRecipe() {
                                                 { item.name }
                                             </div>
                                             <div className="w-1/3">
-                                                { item.amount } { item.measurement }
+                                                { ((item.amount / currentRecipe.originalServingSize) * servings).toFixed(2) } { item.measurement }
                                             </div> 
                                         </div>
                                     )

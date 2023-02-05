@@ -11,6 +11,7 @@ export default class Recipe {
             this.ingredients = [];
             this.tags = [];
             this.prepTime = "";
+            this.originalServingSize = 1;
             this.userId = "";
             this.id = "";
             this.timestamp = "";
@@ -29,6 +30,7 @@ export default class Recipe {
             // this.ingredients = recipe.ingredients;
             this.tags = recipe.tags;
             this.prepTime = recipe.prepTime
+            this.originalServingSize = recipe.originalServingSize;
             this.userId = recipe.userId;
             this.id = recipe.id;
             this.timestamp = recipe.timestamp;
