@@ -36,7 +36,7 @@ export default function viewRecipe() {
 
     return (
         <Animation>
-            <div className="my-20 p-12 shadow-lg rounded-lg max-w-xl mx-auto">
+            <div className="my-10 p-4 md:pd-12 shadow-lg rounded-lg max-w-xl mx-auto">
                 <h1 className="font-bold text-2xl">{ currentRecipe.name }</h1>
                 <div className="py-2">
                     <h3 className="text-lg font-medium py-2 mt-4">Description</h3>
@@ -48,11 +48,11 @@ export default function viewRecipe() {
                         <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>   
                         <h3 className="text-md pb-3">Number of Servings</h3>
                         <div className="flex flex-row justify-around items-center">
-                            <button onClick={() => setServings(1)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 1 ? 'animate-up' : 'bg-cyan-500'}`}>1</button>
-                            <button onClick={() => setServings(2)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 2 ? 'animate-up' : 'bg-cyan-500'}`}>2</button>
-                            <button onClick={() => setServings(3)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 3 ? 'animate-up' : 'bg-cyan-500'}`}>3</button>
-                            <button onClick={() => setServings(4)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 4 ? 'animate-up' : 'bg-cyan-500'}`}>4</button>
-                            <button onClick={() => setServings(5)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 5 ? 'animate-up' : 'bg-cyan-500'}`}>5</button>
+                            <button onClick={() => setServings(1)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 1 ? 'animate-up' : 'bg-cyan-500'}`}>1</button>
+                            <button onClick={() => setServings(2)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 2 ? 'animate-up' : 'bg-cyan-500'}`}>2</button>
+                            <button onClick={() => setServings(3)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 3 ? 'animate-up' : 'bg-cyan-500'}`}>3</button>
+                            <button onClick={() => setServings(4)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 4 ? 'animate-up' : 'bg-cyan-500'}`}>4</button>
+                            <button onClick={() => setServings(5)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 5 ? 'animate-up' : 'bg-cyan-500'}`}>5</button>
                         </div>
                         <div>
                             {
@@ -100,7 +100,7 @@ export default function viewRecipe() {
                     </div>
 
                     <h3 className="text-lg font-medium pt-2 pb-3 mt-4">Tags</h3>
-                    <div className="flex flex-row justify-evenly">
+                    <div className="flex flex-row justify-evenly flex-wrap gap-4">
                         <button className={`tag-btn rounded-md shadow-md text-white p-2 ${currentRecipe.tags.includes("Breakfast") ? "animate-up" : "bg-cyan-500"}`} type="button">Breakfast</button>
                         <button className={`tag-btn rounded-md shadow-md text-white p-2 ${currentRecipe.tags.includes("Lunch") ? "animate-up" : "bg-cyan-500"}`} type="button">Lunch</button>
                         <button className={`tag-btn rounded-md shadow-md text-white p-2 ${currentRecipe.tags.includes("Dinner") ? "animate-up" : "bg-cyan-500"}`} type="button">Dinner</button>

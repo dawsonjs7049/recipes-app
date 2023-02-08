@@ -188,11 +188,11 @@ export default function recipe() {
                             <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>
                             <h3 className="text-md pb-3">Number of Servings</h3>
                             <div className="flex flex-row justify-around items-center">
-                                <button type="button" onClick={() => setServings(1)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 1 ? 'animate-up' : 'bg-cyan-500'}`}>1</button>
-                                <button type="button" onClick={() => setServings(2)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 2 ? 'animate-up' : 'bg-cyan-500'}`}>2</button>
-                                <button type="button" onClick={() => setServings(3)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 3 ? 'animate-up' : 'bg-cyan-500'}`}>3</button>
-                                <button type="button" onClick={() => setServings(4)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 4 ? 'animate-up' : 'bg-cyan-500'}`}>4</button>
-                                <button type="button" onClick={() => setServings(5)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-12 h-12 text-white ${servings == 5 ? 'animate-up' : 'bg-cyan-500'}`}>5</button>
+                                <button type="button" onClick={() => setServings(1)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 1 ? 'animate-up' : 'bg-cyan-500'}`}>1</button>
+                                <button type="button" onClick={() => setServings(2)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 2 ? 'animate-up' : 'bg-cyan-500'}`}>2</button>
+                                <button type="button" onClick={() => setServings(3)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 3 ? 'animate-up' : 'bg-cyan-500'}`}>3</button>
+                                <button type="button" onClick={() => setServings(4)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 4 ? 'animate-up' : 'bg-cyan-500'}`}>4</button>
+                                <button type="button" onClick={() => setServings(5)} className={`text-xl rounded-md shadow-md tag-btn p-2 w-10 h-10 md:w-12 md:h-12 text-white ${servings == 5 ? 'animate-up' : 'bg-cyan-500'}`}>5</button>
                             </div>
                             <div className="flex flex-row justify-between items-center mt-4">
                                 <input value={ingredient} onChange={(e) => setIngredient(e.target.value)} className="w-3/5 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Ingredient" />

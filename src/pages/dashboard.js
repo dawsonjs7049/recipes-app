@@ -103,7 +103,7 @@ export default function Dashboard() {
         
         <Animation path={route.pathname} >
           <div className="w-full max-w-6xl mx-auto h-fit">
-                <div className="bg-cyan-500 py-10 w-full text-white rounded-md shadow-md px-5 mb-10">
+                <div className="w-3/4 md:w-96 lg:w-full mx-auto bg-cyan-500 py-10 text-white rounded-md shadow-md px-5 mb-10">
                     <h1 className='text-2xl font-bold'>{ greeting }</h1>
                     <h2 className="text-lg mt-3">What's Cooking?</h2>
                 </div>
