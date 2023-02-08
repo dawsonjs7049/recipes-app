@@ -23,6 +23,8 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+
+  /* overflow-x: hidden;   */
 }
 
 a {
@@ -58,6 +60,7 @@ a {
   margin-bottom: 5rem;
   font-size: 1.2rem;
   gap: 5px;
+  padding-bottom: 2rem;
 }
 
 .pagination .page-num {
@@ -68,10 +71,10 @@ a {
 }
 
 .pagination .page-num:hover {
-  background-color: cyan;
+  background-color: #06b6d4;
   color: white;
 }
 
 .pagination .active {
-  background-color: cyan;
+  background-color: #06b6d4;
 }

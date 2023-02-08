@@ -20,21 +20,21 @@ export default function Nav()
     }
 
     return (
-        <nav className="flex justify-between items-center py-10">
+        <nav className="flex flex-col md:flex-row justify-between items-center py-10">
             <Link href={"/dashboard"}>
-                <button className="text-2xl font-bold text-slate-500">Cookbook</button>
+                <button className="text-3xl font-bold text-cyan-500">Cookbook</button>
             </Link> 
 
             {
-                user ? 
+                user &&
                 (
-                    <div className="flex items-center gap-5">
+                    <div className="flex items-center gap-5 mt-5 md:mt-0">
                         <ul className="">
-                            <Link href={"/recipe"} onClick={() => setCurrentRecipe(new Recipe(null))}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Add Recipe</span></Link>
+                            <Link href={"/recipe"} onClick={() => setCurrentRecipe(new Recipe(null))}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600 transition-all">Add</span></Link>
                         </ul>
 
                         <ul className="">
-                            <Link href={"/recipeSearch"}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Search Recipes</span></Link>
+                            <Link href={"/recipeSearch"}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600">Search</span></Link>
                         </ul>
                         
                         <ul className="">
@@ -42,12 +42,6 @@ export default function Nav()
                         </ul>
                     </div>
                 ) 
-                :
-                (
-                    <ul className="flex items-center gap-10">
-                        <Link href={"/auth/login"}><span className="py-2 px-4 text-sm bg-cyan-500 text-white rounded-lg font-medium ml-8 shadow-lg hover:bg-cyan-600">Sign Up</span></Link>
-                    </ul>
-                )
             }
          
         </nav>

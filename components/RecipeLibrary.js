@@ -7,7 +7,7 @@ export default function RecipeLibrary({ recipes }) {
     const [currentItems, setCurrentItems] = useState([]);
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState(0);
-    const itemsPerPage = 3;
+    const itemsPerPage = 4;
 
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
@@ -25,7 +25,7 @@ export default function RecipeLibrary({ recipes }) {
     };
 
     return (
-        <>
+        <div className="h-fit">
             <div className="w-full flex flex-row justify-evenly gap-4 flex-wrap mb-20">
                 {
                     currentItems.map(recipe => {
@@ -37,11 +37,11 @@ export default function RecipeLibrary({ recipes }) {
             </div>
             <ReactPaginate
                 breakLabel="..."
-                nextLabel="next >"
+                nextLabel=" >"
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={5}
                 pageCount={pageCount}
-                previousLabel="< previous"
+                previousLabel="< "
                 renderOnZeroPageCount={null}
                 containerClassName="pagination"
                 pageLinkClassName="page-num"
@@ -49,6 +49,6 @@ export default function RecipeLibrary({ recipes }) {
                 nextLinkClassName="page-num"
                 activeLinkClassName="active"
             />
-        </>
+        </div>
     );
 }

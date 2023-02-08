@@ -6,6 +6,8 @@ import RecipeComp from 'components/RecipeCard';
 import RecipeLibrary from 'components/RecipeLibrary.js';
 import { collection, doc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import Recipe from '../models/Recipe.js';
+import Animation from 'components/Animation.js';
+import { motion as m } from 'framer-motion';
 
 export default function Dashboard() {
 
@@ -99,16 +101,17 @@ export default function Dashboard() {
 
     return (
         
-        <div className="w-full max-w-6xl mx-auto h-screen">
-            <div className="bg-cyan-500 py-10 w-full text-white rounded-md shadow-md px-5 mb-10">
-                <h1 className='text-2xl font-bold'>{ greeting }</h1>
-                <h2 className="text-lg mt-3">What's Cooking?</h2>
-            </div>
-            <div className="w-full text-center mt-10 mb-5">
-                <input value={searchValue} onChange={(e) => handleSearch(e.target.value)} className="w-96 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Search By Name or Tag" />
-            </div>
-            <RecipeLibrary recipes={searchableRecipes} />
-
-        </div>
+        <Animation path={route.pathname} >
+          <div className="w-full max-w-6xl mx-auto h-fit">
+                <div className="bg-cyan-500 py-10 w-full text-white rounded-md shadow-md px-5 mb-10">
+                    <h1 className='text-2xl font-bold'>{ greeting }</h1>
+                    <h2 className="text-lg mt-3">What's Cooking?</h2>
+                </div>
+                <div className="w-full text-center mt-10 mb-5">
+                    <input value={searchValue} onChange={(e) => handleSearch(e.target.value)} className="w-3/4 md:w-96 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Search By Name or Tag" />
+                </div>
+                <RecipeLibrary recipes={searchableRecipes} />
+            </div>  
+        </Animation>
     )
 }
