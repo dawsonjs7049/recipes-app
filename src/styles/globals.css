@@ -16,6 +16,7 @@ body {
 }
 
 body {
+  height: 100vh;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,6 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 
+  
   /* overflow-x: hidden;   */
 }
 
@@ -57,10 +59,8 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5rem;
   font-size: 1.2rem;
   gap: 5px;
-  padding-bottom: 2rem;
 }
 
 .pagination .page-num {

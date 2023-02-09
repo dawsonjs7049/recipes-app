@@ -25,7 +25,7 @@ export default function RecipeLibrary({ recipes }) {
     };
 
     return (
-        <div className="h-fit">
+        <div className="h-full">
             <div className="w-full flex flex-row justify-evenly gap-4 flex-wrap mb-20">
                 {
                     currentItems.map(recipe => {
@@ -49,6 +49,7 @@ export default function RecipeLibrary({ recipes }) {
                 nextLinkClassName="page-num"
                 activeLinkClassName="active"
             />
+            <div className="h-10"></div>
         </div>
     );
 }

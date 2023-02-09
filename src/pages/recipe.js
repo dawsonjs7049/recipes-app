@@ -174,7 +174,7 @@ export default function recipe() {
 
     return (
         <Animation path={route.pathname} >
-            <div className="my-10 p-4 md:p-12 shadow-lg rounded-lg max-w-xl mx-auto">
+            <div className="dark:bg-slate-200 my-10 p-4 md:p-12 shadow-lg rounded-lg max-w-xl mx-auto">
                 <form onSubmit={submitRecipe}>
                     <h1 className="font-bold text-2xl">{ title }</h1>
                     <div className="py-2">

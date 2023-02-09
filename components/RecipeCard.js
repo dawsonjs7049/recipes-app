@@ -32,7 +32,7 @@ export default function RecipeCard({ recipe }) {
     }
 
     return (
-        <div className="rounded-md shadow-md w-96 relative hover:shadow-2xl transition-all flex flex-col justify-between">
+        <div className="dark:bg-slate-200 rounded-md shadow-md w-96 relative hover:shadow-2xl transition-all flex flex-col justify-between">
             <div className="w-full p-5">
                 <h1 className="text-3xl font-bold">{ recipe.name }</h1>
                 <button onClick={() => handleSetFavorited(recipe)} style={{position: 'absolute', top: '1.25rem', right: '1.25rem'}}><MdFavorite className={`text-4xl ${isFavorited ? "text-pink-500" : "text-slate-200"}`}/></button>

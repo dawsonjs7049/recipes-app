@@ -5,8 +5,9 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { RecipeContext } from '@/pages/_app';
 import Recipe from '@/models/Recipe';
+import { BsFillMoonStarsFill } from 'react-icons/bs';
 
-export default function Nav()
+export default function Nav({ darkMode, setDarkMode })
 {
     const [user, loading] = useAuthState(auth);
     const { currentRecipe, setCurrentRecipe } = useContext(RecipeContext);
@@ -29,6 +30,10 @@ export default function Nav()
                 user &&
                 (
                     <div className="flex items-center gap-5 mt-5 md:mt-0">
+                        <ul>
+                            <BsFillMoonStarsFill onClick={() => setDarkMode(!darkMode)} className="cursor-pointer text-3xl" stroke={darkMode ? "white" : "black"} fill={darkMode ? "white" : "black"}/>
+                        </ul>
+
                         <ul className="">
                             <Link href={"/recipe"} onClick={() => setCurrentRecipe(new Recipe(null))}><span className="p-2 text-sm bg-cyan-500 text-white rounded-lg font-medium shadow-lg hover:bg-cyan-600 transition-all">Add</span></Link>
                         </ul>
