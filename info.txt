@@ -34,6 +34,9 @@ Install framer motion for page transitions
     -> AnimatePresence tag is needed on _app.js around Component if we want to do exit 
        animations, requires unique id for each component its animating out
 
+Install react testing library 
+    -> npm install --save-dev @testing-library/react
+
 To start dev environment
     -> npm run dev
 
@@ -42,15 +45,6 @@ To start dev environment
 TODO: 
     - page transitions or animations
     - react icons 
-    - add recipe  
-    - edit recipe 
-    - delete recipe 
-    - search for recipes via API 
-    - sorting your recipes 
-    - favoriting recipes 
     - filtering should show and hide by animation 
-    - recipe tags 
     - recipe measurement conversions
     - add background color of teal along sides (not main div, keep that white)
-    - add darkmode
-    - make mobile compatible
