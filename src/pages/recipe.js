@@ -9,6 +9,13 @@ import { AiOutlinePlus} from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import toastMessage from 'utils/util_functions';
 import { RecipeContext } from './_app';
+import { storage } from 'utils/firebase';
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Image from 'next/image';
+
+import defaultImg from 'public/generic_food_image.png';
+import Recipe from '@/models/Recipe';
 
 export default function recipe() {
 
@@ -28,6 +35,8 @@ export default function recipe() {
     const [prepTime, setPrepTime] = useState("");
     const [title, setTitle] = useState("Add a Recipe");
     const [servings, setServings] = useState(1);
+    const [image, setImage] = useState(null);
+
 
     const options = [
         'tsp ',
@@ -80,58 +89,113 @@ export default function recipe() {
 
     }, [user, loading, currentRecipe])
 
-
-
-    async function submitRecipe(event)
+    async function handleSave() 
     {
-        // make a unit test of this function for input fields? 
-        event.preventDefault();
+        let imageURL = null;
+        let imageId = null;
 
-        if(currentRecipe.name != "")
+        if(image !== null)
         {
-            // we are updating a recipe
-            const docRef = doc(db, 'recipes', currentRecipe.id);
+            imageId = (currentRecipe.imageId ? currentRecipe.imageId : image.name + v4());
+            console.log("IMAGE ID: " + imageId);
+            const imageRef = ref(storage, `images/${imageId}`);
+            const uploadTask = uploadBytesResumable(imageRef, image);
+    
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    // track progress of upload
+                },
+                (error) => {
+                    toastMessage("Failed to Upload Image", "error");
+                },
+                () => {
+                    // on complete
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        if(currentRecipe.name != "")
+                        {
+                            // editing recipe
+                            editRecipe(downloadURL, imageId);
+                            
+                            let newRecipe = new Recipe(currentRecipe);
+                            newRecipe.imagePath = downloadURL;
+                            newRecipe.imageId = imageId;
+                            
+                            setCurrentRecipe(newRecipe);
+                        }
+                        else 
+                        {
+                            addRecipe(downloadURL, imageId);
+                        }
+                    })
+                }
+            );
 
-            await updateDoc(docRef, {
+        }
+        else
+        {
+            // no image was selected to upload
+            if(currentRecipe.name != "")
+            {
+                // editing recipe
+                editRecipe(imageURL, imageId);
+            }
+            else 
+            {
+                addRecipe(imageURL, imageId);
+            }
+        }
+    }
+
+
+    async function addRecipe(imageURL, imageId)
+    {
+        if(name.length == 0)
+        {
+            toastMessage("No Title", "error");
+        }
+        else 
+        {
+            const collectionRef = collection(db, 'recipes');
+
+            await addDoc(collectionRef, {
                 name: name,
                 description: description,
                 ingredients: ingredients,
                 steps: steps,
+                userId: user.uid,
                 tags: tags,
                 prepTime: prepTime,
                 originalServingSize: servings,
+                imageId: imageId,
+                imagePath: imageURL,
                 timestamp: serverTimestamp()
             })
+    
+            route.push('/dashboard');
 
-            toastMessage("Successfully Updated Recipe", "success");
+            toastMessage("Added Recipe!", "success");
         }
-        else
-        {
-            if(name.length == 0)
-            {
-                toastMessage("No Title", "error");
-            }
-            else 
-            {
-                const collectionRef = collection(db, 'recipes');
-    
-                await addDoc(collectionRef, {
-                    name: name,
-                    description: description,
-                    ingredients: ingredients,
-                    steps: steps,
-                    userId: user.uid,
-                    tags: tags,
-                    prepTime: prepTime,
-                    originalServingSize: servings,
-                    timestamp: serverTimestamp()
-                })
-        
-                route.push('/dashboard');
-    
-                toastMessage("Added Recipe!", "success");
-            }
-        }
+    }
+
+    async function editRecipe(imageURL, imageId)
+    {
+         // updating a recipe 
+         const docRef = doc(db, 'recipes', currentRecipe.id);
+
+         await updateDoc(docRef, {
+             name: name,
+             description: description,
+             ingredients: ingredients,
+             steps: steps,
+             tags: tags,
+             prepTime: prepTime,
+             originalServingSize: servings,
+             imageId: imageId,
+             imagePath: imageURL,
+             timestamp: serverTimestamp()
+         })
+
+         toastMessage("Successfully Updated Recipe", "success");
     }
 
     function addIngredient()
@@ -172,9 +236,11 @@ export default function recipe() {
         }
     }
 
+
+
     return (
         <div className="dark:bg-slate-200 my-10 p-4 md:p-12 shadow-lg rounded-lg max-w-xl mx-auto">
-            <form onSubmit={submitRecipe}>
+            <form>
                 <h1 className="font-bold text-2xl">{ title }</h1>
                 <div className="py-2">
                     <h3 className="text-lg font-medium py-2">Name</h3>
@@ -182,6 +248,13 @@ export default function recipe() {
 
                     <h3 className="text-lg font-medium py-2 mt-4">Description</h3>
                     <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="bg-slate-100 h-36 w-full text-black rounded-lg p-2 text-small"></textarea>
+
+                    <h3 className="text-lg font-medium py-2 mt-4">Image</h3>
+                    {
+                        currentRecipe.imagePath &&
+                            <img src={currentRecipe.imagePath} className="w-full h-auto rounded-md"/>     
+                    }
+                    <input type="file" onChange={(e) => setImage(e.target.files[0])} className="cursor-pointer mt-2"/>
 
                     <div>
                         <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>
@@ -279,7 +352,7 @@ export default function recipe() {
                     </div>
                 </div>
                 <hr className="my-10"></hr>
-                <button type="submit" className="p-2 mt-2 w-full rounded-md shadow-lg bg-cyan-500 text-center text-white hover:bg-cyan-600 flex flex-row justify-center">Save</button>
+                <button type="button" onClick={() => handleSave()} className="p-2 mt-2 w-full rounded-md shadow-lg bg-cyan-500 text-center text-white hover:bg-cyan-600 flex flex-row justify-center">Save</button>
             </form>
         </div>
     )

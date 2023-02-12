@@ -7,6 +7,8 @@ import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import toastMessage from 'utils/util_functions';
 import { RecipeContext } from '@/pages/_app';
+import defaultImg from 'public/generic_food_image.png';
+import Image from 'next/image';
 
 export default function RecipeCard({ recipe }) {
 
@@ -48,7 +50,7 @@ export default function RecipeCard({ recipe }) {
                         <div>{ recipe.steps.length }</div>
                     </div>
                 </div>
-                <div className="flex flex-row justify-evenly items-center my-6">
+                <div className="flex flex-row justify-evenly items-center my-3">
                     {
                         recipe.tags != undefined &&
                             recipe.tags.map((item, index) => {
@@ -56,6 +58,18 @@ export default function RecipeCard({ recipe }) {
                                     <span className="tag-btn rounded-md shadow-md bg-cyan-500 text-white p-2" key={index}>{ item }</span>
                                 )
                             })
+                    }
+                </div>
+                <div className="w-full h-80 overflow-hidden flex flex-column justify-center p-1">
+                    {
+                        recipe.imagePath ?
+                        (
+                            <img src={recipe.imagePath} className="max-h-full max-w-full m-auto rounded-md"/>     
+                        )
+                        :
+                        (
+                            <Image src={defaultImg} className="max-h-full max-w-full m-auto rounded-md" />
+                        )
                     }
                 </div>
             </div>

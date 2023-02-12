@@ -41,6 +41,11 @@ export default function viewRecipe() {
                     { currentRecipe.description }
                 </p>
 
+                {
+                    currentRecipe.imagePath &&
+                        <img src={currentRecipe.imagePath} className="w-full h-auto rounded-md mt-5"/>     
+                }
+
                 <div>
                     <h3 className="text-lg font-medium py-2 mt-4">Ingredients</h3>   
                     <h3 className="text-md pb-3">Number of Servings</h3>
